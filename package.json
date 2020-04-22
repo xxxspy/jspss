@@ -1,6 +1,6 @@
 {
   "name": "componentize-form",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Scotch Tutorial code sample",
   "main": "src/App.es6",
   "dependencies": {
