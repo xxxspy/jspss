@@ -9,8 +9,11 @@ export class DataFrame{
     index: Index;
     shape: Array<number>;
 
-    constructor(values: tf.Tensor, columns?: Index, index?: Index){
+    constructor(values: tf.Tensor, columns?: Index|Array<number|string>, index?: Index){
         this.values = values
+        if(Array.isArray(columns)){
+            columns = new Index(columns)
+        }
         if(columns){
             if(columns.length()==values.shape[1]){
                 this.columns=columns;

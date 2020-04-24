@@ -12,6 +12,7 @@
     "webpack-dev-server": "^3.10.3"
   },
   "devDependencies": {
+    "@types/jest": "^25.2.1",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-loader": "^6.2.5",
@@ -19,19 +20,23 @@
     "chai": "^3.5.0",
     "isparta": "^4.0.0",
     "istanbul": "^0.4.5",
+    "jest": "^25.4.0",
     "jsdom": "9.6.0",
     "jsdom-global": "2.1.0",
     "mocha": "^3.1.2",
+    "ts-jest": "^25.4.0",
     "ts-loader": "^7.0.1",
+    "ts-node": "^8.9.0",
     "typescript": "^3.8.3"
   },
   "scripts": {
     "build": "set NODE_ENV=development webpack && webpack",
     "dev": "webpack-dev-server --inline --hot",
-    "test": "mocha",
+    "test": "mocha --compilers node_modules/ts-node/register test/**/*.sss.ts",
+    "testts": "jest",
     "test-single": "mocha $1",
     "test:cover": "istanbul cover _mocha -- --compilers js:babel-core/register",
-    "coverage": "babel-node ./node_modules/.bin/isparta cover mocha -- --compilers js:babel-core/register"
+    "coverage": "nyc -r lcov -e .ts -x \"*.sss.ts\" npm run test"
   },
   "repository": {
     "type": "git",

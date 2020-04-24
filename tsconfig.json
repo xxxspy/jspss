@@ -2,8 +2,14 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "sourceMap": true,
-        "noImplicitAny": true,
+        "noImplicitAny": false,
         "module": "commonjs",
         "target": "es6",
-    }
+        "skipLibCheck":true,
+        "checkJs": false,
+        "moduleResolution": "node",
+        
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules/*"],
 }
