@@ -21,11 +21,12 @@ module.exports = {
     library: process.env.NAME,
     libraryTarget: process.env.TARGET,
     path: __dirname,
-    filename: (PROD) ? 'build/ghost.min.js' : 'build/ghost.js'
+    filename: (PROD) ? `build/${config.name}.min.js` : `build/${config.name}.js`
   },
   module: {
-    loaders: [
-      {test: /\.es6?$/, exclude: /node_modules/, loader: 'babel'}
+    rules: [
+      {test: /\.es6?$/, exclude: /node_modules/, loader: 'babel'},
+      {test: /\.ts?$/, exclude: /node_modules/, loader: 'ts-loader'},
     ]
   },
   plugins: plugins
