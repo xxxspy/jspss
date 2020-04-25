@@ -1,6 +1,7 @@
 import * as tf from "@tensorflow/tfjs"
 import {Index, RangeIndex} from './index'
 import {Series} from './series'
+import { tensor } from "@tensorflow/tfjs";
 
 
 export class DataFrame{
@@ -38,17 +39,22 @@ export class DataFrame{
 
     select_col(name: string|number):Series{
         let i = this.columns.get_loc(name);
-        let values = this.values.slice(i, 1);
+        let values = this.values.slice([0, i], [this.shape[0], 1]);
         let s = new Series(values.as1D())
         s.name = name.toString();
         return s
     };
 
-    mask(mask: Series):DataFrame{
+    async mask(mask: Series):Promise<DataFrame>{
+        console.log(mask.shape)
+        console.log(this.shape)
         if(mask.shape[0]!=this.shape[0]){
             throw new Error('mask.shape[0]==this.shape[0]')
         }
-        let values = this.values.gather(mask.values)
+        let values = await tf.booleanMaskAsync(this.values, mask.values)
+        // let values = this.values.gather(mask.values)
+        values.print()
+        console.log('pppppppppppppp')
         return new DataFrame(values, this.columns)
     }
 }

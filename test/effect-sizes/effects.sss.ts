@@ -1,15 +1,23 @@
+// import chai from 'chai';
+import {should} from 'chai'
+should()
+
 import {DataFrame} from '../../src/data/dataframe'
 import * as tf from '@tensorflow/tfjs'
+import {cohens_d} from '../../src/effect-sizes/effects'
 
-let df = new DataFrame(tf.tensor2d([[1,2], [3,4], [5,7]]), ['a', 'b'])
 
-df.values.print()
-df.select_col('a').values.print()
+tf.setBackend("cpu");
+require('jsdom-global')()
 
-// import * as j from 'jstat'
 
-let a = 1
+let df = new DataFrame(tf.tensor2d([[1,2, 3], [1,4,4], [2,7,5], [2,7,5]]), ['a', 'b', 'c'])
 
-function ttt(a:number):number{
-    return 0
-}
+describe('ddd', ()=>{
+    it('chhens_d', async ()=>{
+        let ds = await cohens_d(df, ['b', 'c'], 'b', [1,2])
+        console.log('--------------')
+        ds.length.should.equal(2)
+        ds[0].dataSync()[0].should.equal(1)
+    })
+})
