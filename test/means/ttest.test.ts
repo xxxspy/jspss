@@ -1,7 +1,11 @@
 import {should} from 'chai'
 import * as tf from '@tensorflow/tfjs'
 import {Series} from '../../src/data/series'
-import {t, df, p, psd} from '../../src/means/ttests/ind-samples'
+import {t, df, psd} from '../../src/means/ttests/ind-samples'
+// import {studentt} from 'jstats'
+// import * as jst from 'jstat'
+import {pvalue, } from '../../src/distributions/student_t'
+
 tf.setBackend("cpu");
 should()
 
@@ -20,7 +24,6 @@ let psdval = psd(var1, var2, n1, n2)
 
 let tval = t(m1, m2, var1, var2, n1, n2)
 let dfval = df(n1, n2)
-let pval = p(tval, dfval, m1.sub(m2), psdval)
 
 describe('ttest', ()=>{
     it('mean.var.n', ()=>{
@@ -32,6 +35,8 @@ describe('ttest', ()=>{
     it('tvalue.dfvalue', ()=>{
         tval.dataSync()[0].should.within(-1.622927, -1.622926)
         dfval.dataSync()[0].should.equal(30)
+        let p = pvalue(tval.dataSync()[0], dfval.dataSync()[0], 2)
+        p.should.within(0.115068, 0.115069)
     })
     
 })
