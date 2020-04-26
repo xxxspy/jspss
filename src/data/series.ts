@@ -2,12 +2,15 @@ import * as tf from "@tensorflow/tfjs"
 import {Index, RangeIndex} from './index'
 
 export class Series{
-    values:tf.Tensor1D;
+    values:tf.Tensor|tf.Tensor<tf.Rank>;
     index:Index;
     name:string;
     shape:Array<number>;
 
-    constructor(values:tf.Tensor1D, index?:Index, name:string='') {
+    constructor(values:tf.Tensor1D|Array<number>|tf.Tensor<tf.Rank>, index?:Index, name:string='') {
+        if(Array.isArray(values)){
+            values = tf.tensor(values)
+        }
         this.values = values
         if(index){
             if(index.length()==values.shape[0]){
@@ -39,17 +42,20 @@ export class Series{
         return tf.sum(this.values)
     };
 
-    variance():tf.Scalar{
+    var():tf.Scalar{
         let m = tf.sub(this.values, this.mean());
         let ss = tf.sum(tf.square(m))
         return tf.div(ss, this.shape[0]-1)
     };
 
     std():tf.Scalar{
-        return tf.square(this.variance())
+        return tf.sqrt(this.var())
     };
 
-    equal(val: string|number):Series{
-        return new Series(this.values.equal(val), this.index)
+    equal(val: number):Series{
+        let vals = tf.tensor1d([val, ])
+        console.log('==========')
+        tf.equal(this.values, vals).as1D().print()
+        return new Series(tf.equal(this.values, vals).as1D(), this.index)
     }
 }

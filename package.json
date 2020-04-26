@@ -7,6 +7,7 @@
     "@tensorflow/tfjs": "^1.7.3",
     "dotenv": "^2.0.0",
     "jstat": "^1.9.3",
+    "tfjs-special": "^1.0.0",
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
@@ -33,9 +34,10 @@
   "scripts": {
     "build": "set NODE_ENV=development webpack && webpack",
     "dev": "webpack-dev-server --inline --hot",
-    "test": "mocha --compilers node_modules/ts-node/register test/**/*.sss.ts",
+    "test": "mocha --compilers node_modules/ts-node/register test/**/*.test.ts",
+    "test-ing": "mocha --compilers node_modules/ts-node/register test/**/*.test.ing.ts",
     "testts": "jest",
-    "test-single": "mocha $1",
+    "test-single": "mocha --compilers node_modules/ts-node/register ",
     "test:cover": "istanbul cover _mocha -- --compilers js:babel-core/register",
     "coverage": "nyc -r lcov -e .ts -x \"*.sss.ts\" npm run test"
   },
