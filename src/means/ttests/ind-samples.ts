@@ -1,5 +1,5 @@
 import * as tf from "@tensorflow/tfjs"
-import {cdf as tcdf} from '../../distributions/student_t'
+// import {cdf as tcdf} from '../../distributions/student_t'
 
 // export function t(data: tf.Tensor2D)
 
@@ -52,6 +52,6 @@ export function df_ne(var1: tf.Scalar, var2: tf.Scalar, n1: tf.Scalar, n2: tf.Sc
     return numer.div(denom)
 }
 
-export function p(t: tf.Scalar, df: tf.Scalar, loc: tf.Scalar, scale: tf.Scalar):tf.Scalar{
-    return tcdf(t, df, loc, scale)
-}
+// export function p(t: tf.Scalar, df: tf.Scalar, loc: tf.Scalar, scale: tf.Scalar):tf.Scalar{
+//     return tcdf(t, df, loc, scale)
+// }
