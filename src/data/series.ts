@@ -58,4 +58,21 @@ export class Series{
         tf.equal(this.values, vals).as1D().print()
         return new Series(tf.equal(this.values, vals).as1D(), this.index)
     }
+
+    square():Series{
+        let vals = tf.square(this.values)
+        return new Series(vals, this.index)
+    }
+
+    sub(val:Series|number|tf.Tensor1D):Series{
+        let new_val;
+        if(val instanceof tf.Tensor){
+            new_val = this.values.sub(val)    
+        }else if(val instanceof Series){
+            new_val = this.values.sub(val.values)
+        }else{
+            new_val = this.values.sub(val)
+        }
+        return new Series(new_val, this.index)
+    }
 }
