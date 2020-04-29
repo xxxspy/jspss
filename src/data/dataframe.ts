@@ -1,7 +1,7 @@
 import * as tf from "@tensorflow/tfjs"
 import {Index, RangeIndex} from './index'
 import {Series} from './series'
-import { tensor } from "@tensorflow/tfjs";
+import { tensor, mean } from "@tensorflow/tfjs";
 
 
 export class DataFrame{
@@ -56,5 +56,20 @@ export class DataFrame{
         values.print()
         console.log('pppppppppppppp')
         return new DataFrame(values, this.columns)
+    }
+
+    crr():tf.Tensor{
+        let df = this.values;
+        let means = df.mean(0)
+        let std = df.sub(means).square().sum(0).div(df.shape[0]).sqrt()
+        let df2 = new DataFrame(df.div(std))
+        return df2.var()
+    }
+
+    var():tf.Tensor{
+        let df = this.values;
+        let ones = tf.ones([df.shape[0], df.shape[0]])
+        let df_dev = df.sub(ones.matMul(df).div(df.shape[0]))
+        return df_dev.transpose().matMul(df_dev).div(df.shape[0])
     }
 }
