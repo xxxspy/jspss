@@ -43,12 +43,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ghostffcode/componentize-form.git"
+    "url": "/"
   },
-  "author": "Chimeremeze Ukah <bliss@ghostffco.de>",
+  "author": "mlln.cn <xxxspy@126.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ghostffcode/componentize-form/issues"
+    "url": "/"
   },
-  "homepage": "https://github.com/ghostffcode/componentize-form#readme"
+  "homepage": "https://mlln.cn/"
 }

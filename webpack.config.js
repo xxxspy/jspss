@@ -39,6 +39,6 @@ module.exports = {
   //   ],
   // },
   externals: {
-    '@tensorflow/tfjs': ['@tensorflow/tfjs', 'tf-node']
+    '@tensorflow/tfjs': '@tensorflow/tfjs', 
   }
 };

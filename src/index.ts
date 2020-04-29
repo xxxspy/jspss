@@ -1,6 +1,10 @@
 "use strict";
 export * as facotr  from './factor/index'
 import { exp } from '@tensorflow/tfjs';
+const config = require('../package.json');
+
+export let version=config.version
+
 // import {factor} from './factor/api' 
 // // const factor = require('factor')
 
