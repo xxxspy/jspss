@@ -1,6 +1,6 @@
 const path = require('path');
 const config = require('./package.json');
-
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 require('dotenv').config();
 
@@ -9,9 +9,7 @@ const PROD = process.env.NODE_ENV === 'production';
 let plugins = [];
 
 PROD ? [
-    plugins.push(new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
-    }))
+    plugins.push(new UglifyJsPlugin())
   ] : '';
 
 module.exports = {
@@ -29,5 +27,18 @@ module.exports = {
       {test: /\.ts?$/, exclude: /node_modules/, loader: 'ts-loader'},
     ]
   },
-  plugins: plugins
+  resolve: {
+    extensions: ['.ts', '.js', '.json']
+  },
+  // plugins: plugins,
+  // optimization: {
+  //   minimizer: [
+  //     new UglifyJsPlugin({
+  //       cache: true,
+  //     }),
+  //   ],
+  // },
+  externals: {
+    '@tensorflow/tfjs': ['@tensorflow/tfjs', 'tf-node']
+  }
 };
