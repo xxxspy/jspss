@@ -1,6 +1,7 @@
 import * as MLR from "ml-regression-multivariate-linear";
 import {DataFrame} from '../data/dataframe'
 import { Matrix } from 'ml-matrix';
+import * as jst from 'jstat'
 
 interface RegConfig{
     depvar: string,
@@ -12,44 +13,59 @@ interface RegResult{
     stdErrors: Array<number>,
     tStats: Array<number>,
     r2: number,
-    ssr: number,
+    sse: number,
     sst: number,
     stdError: number,
+    f: number,
+    sig: number,
 }
 
+
+// F test reference: http://facweb.cs.depaul.edu/sjost/csc423/documents/f-test-reg.htm
 export function regression(data: DataFrame, config: RegConfig):RegResult{
     const x = data.select_cols(config.indvars).toArray();
     const y = data.select_cols([config.depvar]).toArray();
+    const n = y.length;
     const mlr = new MLR(x, y)
+    const p = mlr.inputs + 1
     let weights = []
     mlr.weights.forEach(w=>{
         weights.push(w[0])
     })
-    // console.log(mlr)
+    console.log(mlr)
     // console.log(mlr.toJSON().summary)
     // console.log(mlr.summary )
 
     let yhat = mlr.predict(x)
     const es = Matrix.sub(y, yhat)
-    const ssr = es.transpose().mmul(es).get(0, 0)
+    const sse = es.transpose().mmul(es).get(0, 0)
     const ones = Matrix.ones(y.length, 1)
     const meany = ones.transpose().mmul(y).div(y.length).get(0, 0)
     const disy = Matrix.sub(y, meany)
     const sst = disy.transpose().mmul(disy).get(0, 0)
-    const r2 = 1 - ssr / sst
-    console.log('ssr:sst:r2::::::::::::')
-    console.log(ssr)
+    const r2 = 1 - sse / sst
+    const dfm = p - 1
+    const dfe = n - p
+    const dft = n - 1
+    const msm = (sst-sse)/dfm
+    const mse = sse / dfe
+    const f = msm/mse;
+    let sig = 1 - jst.centralF.cdf(f, dfm, dfe)
+    console.log('sse:sst:r2:f:::::::::::')
+    console.log(sse)
     console.log(sst)
     console.log(r2)
-    console.log(yhat)
-
+    console.log(f)
+    console.log(sig)
     return {
         weights,
         stdErrors: mlr.stdErrors,
         tStats: mlr.tStats,
         stdError: mlr.stdError,
         r2,
-        ssr,
-        sst
+        sse,
+        sst,
+        f,
+        sig,
     }
 }
