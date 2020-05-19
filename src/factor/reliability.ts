@@ -1,8 +1,9 @@
 import {Series} from '../data/series'
+import * as tf from '@tensorflow/tfjs'
 
 
-export function omega(data: Series|Array<number>){
-    if(Array.isArray(data)){
+export function omega(data: Series|Array<number>|tf.Tensor){
+    if(Array.isArray(data) || data instanceof tf.Tensor){
         data = new Series(data)
     }
     let squ = data.square()

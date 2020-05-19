@@ -65,14 +65,31 @@ export class Series{
     }
 
     sub(val:Series|number|tf.Tensor1D):Series{
-        let new_val;
-        if(val instanceof tf.Tensor){
-            new_val = this.values.sub(val)    
-        }else if(val instanceof Series){
-            new_val = this.values.sub(val.values)
-        }else{
-            new_val = this.values.sub(val)
-        }
+        let new_val = this.values.sub(this._to_tf_val(val))
         return new Series(new_val, this.index)
+    }
+
+    _to_tf_val(val: Series|number|tf.Tensor):number|tf.Tensor{
+        if(val instanceof tf.Tensor){
+            return val   
+        }else if(val instanceof Series){
+            return val.values
+        }else{
+            return val
+        }
+    }
+
+    greater(val: Series|number|tf.Tensor1D):Series{
+        return new Series(
+            this.values.greater(
+                this._to_tf_val(val)
+            ),
+            this.index
+        )
+    }
+
+    topk(k=1, sorted=false){
+        const {values, indices} = this.values.topk(k, sorted)
+        return {values, indices}
     }
 }
