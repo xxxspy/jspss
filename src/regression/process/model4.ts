@@ -1,5 +1,9 @@
 import {ProcessConfig} from './interfaces'
 import {RegResult, regressionRaw as regression} from '../regression'
+import { DataFrame } from '../../data/dataframe'
+import { input } from '@tensorflow/tfjs'
+import {bootstrapSample} from './process'
+import * as mutils from '../../utils/ml-matrix'
 
 
 
@@ -90,4 +94,21 @@ export function _analysis(data: InputData):Model4Result{
     result.medEffect = result.model2.weights[0] * result.model3.weights[1]
     result.mederr = -1
     return result
+}
+
+export function analysis(data: DataFrame, config: ProcessConfig):Model4Result{
+    let vnames = cols(config)
+    let rows = data.select_cols(vnames).toArray()
+    let inputs = genData(rows, config)
+    let rtn = _analysis(inputs)
+    let i=0;
+    let effects = []
+    while (i<config.bootN){
+        let sample = bootstrapSample(rows)
+        let ipt = genData(sample, config)
+        let res = _analysis(ipt)
+        effects.push(res.medEffect)
+    }
+    rtn.mederr = mutils.vecVariance(effects) ^ 0.5;
+    return rtn
 }

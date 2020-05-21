@@ -9,7 +9,7 @@ function getRndInteger(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min) ) + min;
   }
 
-function bootstrapSample(data: number[][]):number[][]{
+export function bootstrapSample(data: number[][]):number[][]{
     let samples = []
     while(samples.length<data.length){
         samples.push(data[getRndInteger(0, data.length-1)])
@@ -42,9 +42,11 @@ export function genData(data: number[][], config: ProcessConfig):number[][][]{
 
 
 export function process(data: DataFrame, config: ProcessConfig):ProcessResult{
-    let cols = genCols(config)
-    let rows = data.select_cols(cols).toArray()
-    let result = {}
-    let modelData = genData(rows, config)
-    return {}
+    let res;
+    if(config.model==4){
+        res = model4.analysis(data, config)
+    }else{
+        throw new Error('Not support model: ' + config.model)
+    }
+    return res
 }
