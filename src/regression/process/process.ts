@@ -4,7 +4,6 @@ import {ProcessResult, ProcessConfig} from './interfaces'
 import * as model4 from './model4'
 
 
-
 function getRndInteger(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min) ) + min;
   }
@@ -48,5 +47,8 @@ export function process(data: DataFrame, config: ProcessConfig):ProcessResult{
     }else{
         throw new Error('Not support model: ' + config.model)
     }
-    return res
+    return {
+        config: config,
+        modelResult: res
+    }
 }

@@ -1,4 +1,5 @@
 import {RegResult} from '../regression'
+import {Model4Result} from './model4'
 
 export interface ProcessConfig{
     model: number,
@@ -8,13 +9,15 @@ export interface ProcessConfig{
     covs?: Array<string>,
     moderW?: string,
     moderZ?: string,
-    cofidence: 95,
-    bootN: 5000,
+    cofidence?: number,
+    bootN?: number,
+    defaultBootN?: 1000,
+    defaultConfidence?: 95,
 }
 
 export interface ProcessResult{
     config: ProcessConfig,
-    modelResult: Model4,
+    modelResult: Model4Result,
 }
 
 

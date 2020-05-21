@@ -4,6 +4,7 @@ import { DataFrame } from '../../data/dataframe'
 import { input } from '@tensorflow/tfjs'
 import {bootstrapSample} from './process'
 import * as mutils from '../../utils/ml-matrix'
+import {variance} from 'mathjs'
 
 
 
@@ -108,7 +109,11 @@ export function analysis(data: DataFrame, config: ProcessConfig):Model4Result{
         let ipt = genData(sample, config)
         let res = _analysis(ipt)
         effects.push(res.medEffect)
+        i ++;
     }
-    rtn.mederr = mutils.vecVariance(effects) ^ 0.5;
+    rtn.mederr = variance(effects) ** 0.5;
+    console.log(effects)
+    console.log(variance(effects))
+    console.log(variance(effects)**0.5)
     return rtn
 }

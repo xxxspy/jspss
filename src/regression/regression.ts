@@ -29,7 +29,6 @@ export function regressionRaw(x: number[][], y: number[][]):RegResult{
         weights.push(w[0])
     })
     console.log(mlr)
-    console.log(mlr.toJSON().summary)
     console.log(mlr.summary )
 
     let yhat = mlr.predict(x)
