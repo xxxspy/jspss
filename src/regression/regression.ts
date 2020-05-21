@@ -3,13 +3,13 @@ import {DataFrame} from '../data/dataframe'
 import { Matrix } from 'ml-matrix';
 import * as jst from 'jstat'
 
-interface RegConfig{
+export interface RegConfig{
     depvar: string,
     indvars: Array<string>,
 }
 
-interface RegResult{
-    weights: Array<number>,
+export interface RegResult{
+    weights: Array<number>, // 系数: x1,x2...intercept
     stdErrors: Array<number>,
     tStats: Array<number>,
     r2: number,
@@ -20,21 +20,17 @@ interface RegResult{
     sig: number,
 }
 
-
-// F test reference: http://facweb.cs.depaul.edu/sjost/csc423/documents/f-test-reg.htm
-export function regression(data: DataFrame, config: RegConfig):RegResult{
-    const x = data.select_cols(config.indvars).toArray();
-    const y = data.select_cols([config.depvar]).toArray();
+export function regressionRaw(x: number[][], y: number[][]):RegResult{
     const n = y.length;
     const mlr = new MLR(x, y)
-    const p = mlr.inputs + 1
+    const p = x[0].length + 1
     let weights = []
     mlr.weights.forEach(w=>{
         weights.push(w[0])
     })
     console.log(mlr)
-    // console.log(mlr.toJSON().summary)
-    // console.log(mlr.summary )
+    console.log(mlr.toJSON().summary)
+    console.log(mlr.summary )
 
     let yhat = mlr.predict(x)
     const es = Matrix.sub(y, yhat)
@@ -68,4 +64,12 @@ export function regression(data: DataFrame, config: RegConfig):RegResult{
         f,
         sig,
     }
+}
+
+
+// F test reference: http://facweb.cs.depaul.edu/sjost/csc423/documents/f-test-reg.htm
+export function regression(data: DataFrame, config: RegConfig):RegResult{
+    const x = data.select_cols(config.indvars).toArray();
+    const y = data.select_cols([config.depvar]).toArray();
+    return regressionRaw(x, y)
 }
