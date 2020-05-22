@@ -184,7 +184,7 @@ let s = process(data, {
     model: 4,
     x: '努力',
     y: '投入', 
-    m: ['要求'],
+    ms: ['要求'],
     bootN: 100,
 })
 
