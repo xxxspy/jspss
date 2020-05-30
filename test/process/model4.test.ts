@@ -191,6 +191,7 @@ let s = process(data, {
 describe('process:model4', ()=>{
     it('mederr:', ()=>{
         s.modelResult.mederr.should.within(0.09, 0.2)
+        console.log(s)
     })
 })
 

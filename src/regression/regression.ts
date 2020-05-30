@@ -8,6 +8,12 @@ export interface RegConfig{
     indvars: Array<string>,
 }
 
+export interface DegreeOfFreedoms{
+    dfm: number,
+    dfe: number,
+    dft: number,
+}
+
 export interface RegResult{
     weights: Array<number>, // 系数: x1,x2...intercept
     stdErrors: Array<number>,
@@ -18,6 +24,7 @@ export interface RegResult{
     stdError: number,
     f: number,
     sig: number,
+    dfs: DegreeOfFreedoms,
 }
 
 export function regressionRaw(x: number[][], y: number[][]):RegResult{
@@ -62,6 +69,7 @@ export function regressionRaw(x: number[][], y: number[][]):RegResult{
         sst,
         f,
         sig,
+        dfs: {dfm, dfe, dft},
     }
 }
 
