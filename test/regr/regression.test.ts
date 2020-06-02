@@ -63,11 +63,11 @@ describe('regression', ()=>{
 
         let res = regression(data, {depvar: 'y', indvars: ['z1', 'z2']})
         console.log(res)
-        res.weights.should.deep.equal([ 2.6343990544629605, 0.045184061422759214, 30.966563624254377 ])
+        res.weights[0].should.within(2.63, 2.64)
+        res.weights[1].should.within(0.0451, 0.0452)
+        res.weights[2].should.within(30.966, 30.967)
     })
 
 })
 
 
-
-// [6, 6, 6]

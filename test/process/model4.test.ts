@@ -4,10 +4,9 @@ import {ProcessResult, ProcessConfig} from '../../src/regression/process/interfa
 import {should} from 'chai'
 import * as MLR from "ml-regression-multivariate-linear";
 import {regression} from '../../src/regression/regression'
-import * as tf from '@tensorflow/tfjs'
-tf.setBackend("cpu");
 
 should()
+console.log(should)
 let _data = [
     [3.50,4.36,5.47,],
     [3.13,3.79,4.40,],

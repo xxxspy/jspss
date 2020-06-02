@@ -10,8 +10,8 @@ should()
 describe('series:', ()=>{
     it('statics:', ()=>{
         let ser = new Series([0, 1, 1, 1, 1, 0, 1, 2, 1, 2])
-        ser.mean().dataSync()[0].should.be.equal(1)
-        ser.std().dataSync()[0].should.be.within(0.666, 0.667)
+        ser.mean().should.be.equal(1)
+        ser.std().should.be.within(0.666, 0.667)
     })
 
 

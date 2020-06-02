@@ -1,20 +1,19 @@
 import {should} from 'chai'
-import * as tf from '@tensorflow/tfjs'
 import {DataFrame} from '../../src/data/dataframe'
 import {efa} from '../../src/factor/api'
 
 
 should()
-tf.setBackend('cpu')
 
-let df = new DataFrame(tf.tensor2d([	
+
+let df = new DataFrame([	
     [90,60,90],
     [90,90,30],
     [60,60,60],
     [60,60,90],
-    [30,30,30]]))
+    [30,30,30]])
 
-    let df2 = new DataFrame(tf.tensor2d([
+    let df2 = new DataFrame([
         [5,4,5],
 [5,4,5],
 [4,4,4],
@@ -68,7 +67,7 @@ let df = new DataFrame(tf.tensor2d([
 [2,3,2],
 [5,4,5],
 [4,4,4]
-    ]))
+    ])
 
 describe('dataframe', ()=>{
     // it('covariate matrix', ()=>{
@@ -85,9 +84,9 @@ describe('dataframe', ()=>{
     it('omega', ()=>{
 
         let om = df.omega()
-        om.print()
+        console.log(om)
         let om2 = df2.omega()
-        om2.print()
+        console.log(om2)
     })
 
 

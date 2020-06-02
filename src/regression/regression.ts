@@ -36,7 +36,7 @@ export function regressionRaw(x: number[][], y: number[][]):RegResult{
         weights.push(w[0])
     })
     console.log(mlr)
-    console.log(mlr.summary )
+    // console.log(mlr.summary )
 
     let yhat = mlr.predict(x)
     const es = Matrix.sub(y, yhat)
