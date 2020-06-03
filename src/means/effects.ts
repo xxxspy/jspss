@@ -1,20 +1,18 @@
 import {Series} from '../data/series'
 import {DataFrame} from '../data/dataframe'
 import {psd} from './ttests/ind-samples'
+import * as mathjs from 'mathjs'
 
 
-export function _cohens_d(m1:tf.Scalar, m2:tf.Scalar, std1:tf.Scalar, std2:tf.Scalar, n1:tf.Scalar, n2:tf.Scalar):tf.Scalar{
-    let var1 = tf.square(std1)
-    let var2 = tf.square(std2)
-    let _fenzi = var1.mul(n1.sub(1)).add(var2.mul(n2.sub(1)));
-    let fenmu = tf.sqrt(tf.div(
-        _fenzi,
-        n1.add(n2).sub(2),
-    ))
-    return tf.div(tf.sub(m1, m2), fenmu)
+export function _cohens_d(m1:number, m2:number, std1:number, std2:number, n1:number, n2:number):number{
+    let var1 = mathjs.square(std1)
+    let var2 = mathjs.square(std2)
+    let _fenzi = var1 * (n1-1) + var2*(n2-1)
+    let fenmu = (_fenzi / (n1+n2-2))**0.5
+    return (m1-m2)/fenmu
 }
 
-export function cohens_d(data:DataFrame, varnames:Array<string>, groupvar: string, groupvalue: Array<number>):Promise<Array<tf.Scalar>>{
+export function cohens_d(data:DataFrame, varnames:Array<string>, groupvar: string, groupvalue:number[]):number[]{
     let index1 = data.select_col(groupvar) as Series
     index1 = index1.equal(groupvalue[0])
     let index2 = data.select_col(groupvar) as Series
@@ -27,8 +25,8 @@ export function cohens_d(data:DataFrame, varnames:Array<string>, groupvar: strin
         let s2 = df2.select_col(vn) as Series
         let m1 = s1.mean()
         let m2 = s2.mean()
-        let n1 = tf.scalar(s1.shape[0])
-        let n2 = tf.scalar(s2.shape[0])
+        let n1 = s1.shape[0]
+        let n2 = s2.shape[0]
         ds.push(_cohens_d(m1, m2, s1.std(), s2.std(), n1, n2))
     })
     return ds

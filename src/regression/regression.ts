@@ -35,9 +35,6 @@ export function regressionRaw(x: number[][], y: number[][]):RegResult{
     mlr.weights.forEach(w=>{
         weights.push(w[0])
     })
-    console.log(mlr)
-    // console.log(mlr.summary )
-
     let yhat = mlr.predict(x)
     const es = Matrix.sub(y, yhat)
     const sse = es.transpose().mmul(es).get(0, 0)
@@ -53,12 +50,6 @@ export function regressionRaw(x: number[][], y: number[][]):RegResult{
     const mse = sse / dfe
     const f = msm/mse;
     let sig = 1 - jst.centralF.cdf(f, dfm, dfe)
-    console.log('sse:sst:r2:f:::::::::::')
-    console.log(sse)
-    console.log(sst)
-    console.log(r2)
-    console.log(f)
-    console.log(sig)
     return {
         weights,
         stdErrors: mlr.stdErrors,

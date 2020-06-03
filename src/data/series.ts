@@ -49,15 +49,11 @@ export class Series{
 
     var():number{
         let m = mathjs.subtract(this.values, this.mean());
-        console.log('m'+ m)
         let ss = mathjs.sum(mathjs.square(m))
-        console.log('ss:'+ss)
-        console.log(this.shape)
         return mathjs.divide(ss, this.shape[0]-1)
     };
 
     std():number{
-        console.log('var:' + this.var())
         return mathjs.sqrt(this.var())
     };
 
