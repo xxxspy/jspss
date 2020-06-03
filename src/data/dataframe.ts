@@ -79,15 +79,8 @@ export class DataFrame{
     crr():Matrix{
         let df = this.values;
         let n = this.shape[0]
-        console.log('>>>>>>>>>>>>>>>>>')
-        // console.log(mathjs.mean(df, 0))
         let means = mathjs.reshape(mathjs.mean(df, 0), [1, this.shape[1]])
         means = mathjs.multiply(mathjs.ones(n, 1), means)
-        
-        // means = mathjs.multiply(means, mathjs.ones(1, n))
-        // means = mathjs.transpose(means)
-        console.log('mean:::')
-        console.log(means)
         let std = mathjs.sqrt(
             mathjs.divide(
                 mathjs.sum(
@@ -95,15 +88,8 @@ export class DataFrame{
                         mathjs.subtract(df, means)
                     ), 0), n)
         )
-        // let std = df.sub(means).square().sum(0).div(df.size[0]).sqrt()
-        // let df2 = new DataFrame(df.div(std) as Matrix)
-        console.log(std)
         std = mathjs.reshape(std, [1, this.shape[1]])
         std = mathjs.multiply(mathjs.ones(n, 1), std)
-        console.log('df::::::::::')
-        console.log(df)
-        console.log(std)
-        
         let df2 = new DataFrame(mathjs.dotDivide(df, std))
         return df2.var()
     }
@@ -115,12 +101,10 @@ export class DataFrame{
         let df_dev = mathjs.subtract(df, mathjs.divide(
             mathjs.multiply(ones, df), n
         ))
-        // let df_dev = df.subtract(mathjs.multiply(ones, df).div(n))
         return mathjs.divide(
             mathjs.multiply(
                 mathjs.transpose(
                     df_dev), df_dev), n)
-        // return df_dev.transpose().matMul(df_dev).div(n)
     }
 
     gather(indices: Array<number>|Matrix): DataFrame{
