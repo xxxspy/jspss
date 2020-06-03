@@ -27,7 +27,7 @@ export class DataFrame{
             if(columns.length()==this.shape[1]){
                 this.columns=columns;
             }else{
-                throw new Error('Columns.lengt != values.shape[1]')
+                throw new Error(`Columns.length(${columns.length()}) != values.shape[1](${values.shape[1]})`)
             }
         }else{
             this.columns = new RangeIndex(0, this.shape[1])
@@ -37,7 +37,7 @@ export class DataFrame{
             if(index.length()==this.shape[0]){
                 this.index=index;
             }else{
-                throw new Error('index.lengt != values.shape[0]')
+                throw new Error(`index.length(${index.length()}) != values.shape[0](${values.shape[0]})`)
             }
         }else{
             this.index = new RangeIndex(0, this.shape[0])
@@ -51,7 +51,7 @@ export class DataFrame{
             return new DataFrame(values, [name,])
         }
         else{
-            let s = new Series(values.as1D())
+            let s = new Series(values)
             s.name = name.toString();
             return s
         }

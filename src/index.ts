@@ -1,7 +1,11 @@
 "use strict";
 export * as facotr  from './factor/api'
-import { exp } from '@tensorflow/tfjs';
+export {DataFrame} from './data/dataframe'
+export {Series} from './data/series'
+export {process} from './regression/process/process'
+
 const config = require('../package.json');
+
 
 export let version=config.version
 
