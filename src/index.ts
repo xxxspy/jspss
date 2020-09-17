@@ -3,6 +3,7 @@ export * as facotr  from './factor/api'
 export {DataFrame} from './data/dataframe'
 export {Series} from './data/series'
 export {process} from './regression/process/process'
+export * as utils from './utils/main'
 
 const config = require('../package.json');
 
